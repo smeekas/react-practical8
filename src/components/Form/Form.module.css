@@ -7,6 +7,8 @@ form {
   justify-content: center;
   align-items: center;
   flex-direction: column;
+  position: relative;
+  padding-bottom:1rem ;
 }
 
 .error {
@@ -20,15 +22,23 @@ form {
   align-items: center;
   padding: 4px;
 }
-.filee {
-  background-color: #d3001c;
+.fileInput {
+  /* background-color: #d3001c; */
 }
 .filePhoto {
   display: flex;
   flex-direction: row;
   width: 100%;
+
   justify-content: space-evenly;
 }
+.fileError {
+  color: red;
+  position: absolute;
+  font-size: 14px;
+  bottom: 0;
+}
+
 .photo {
   object-fit: cover;
   border-radius: 50%;
@@ -96,7 +106,4 @@ form {
 .photo {
   width: 5rem;
   height: 5rem;
-}
-.error {
-  color: red;
 }

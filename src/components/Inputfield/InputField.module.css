@@ -1,7 +1,10 @@
 .form-control {
   display: flex;
   flex-direction: column;
-  padding: 0.3rem;
+  /* padding: 0.8rem; */
+  padding-bottom: 1.5rem;
+  /* border: 2px solid green; */
+  position: relative;
 }
 .form-control label {
   padding-bottom: 0.5rem;
@@ -18,6 +21,9 @@
 }
 .error p {
   color: red;
+  position: absolute;
+  font-size: 14px;
+  bottom: 10%;
 }
 
 .error input {

@@ -21,17 +21,15 @@ const Form = () => {
       .required("phone number required"),
     pass: Yup.string()
       .min(3, "password must be atleast 15 character long ")
-      .required("Password i required"),
+      .required("Password  required"),
     confirmPass: Yup.string()
       .oneOf([Yup.ref("pass"), null], "Passwords must match")
       .required("confirm password required"),
-    photo: Yup.mixed().test(
-      "fileSize",
-      "image size must be < 2 MB",
-      (value) => {
+    photo: Yup.mixed()
+      .required("image required")
+      .test("fileSize", "image size must be < 2 MB", (value) => {
         return value && value.size <= 2000000;
-      }
-    ),
+      }),
   });
   const initialValues = {
     name: "",
@@ -81,7 +79,7 @@ const Form = () => {
         <section className={styles.filePicker}>
           <div className={styles.filePhoto}>
             <input
-              className={styles.filee}
+              // className={styles.fileInput}
               ref={inputFileRef}
               style={{ display: "none" }}
               type="file"
@@ -105,13 +103,13 @@ const Form = () => {
             )}
           </div>
           {formik.errors.photo && formik.touched.photo && (
-            <p className={styles.error}>{formik.errors.photo}</p>
+            <p className={styles.fileError}>{formik.errors.photo}</p>
           )}
         </section>
         <section>
           <InputField
             labelName="name"
-            labelValue="name"
+            labelValue="Name"
             inputType="text"
             onBlur={formik.handleBlur}
             onChange={formik.handleChange}
@@ -137,7 +135,7 @@ const Form = () => {
 
           <InputField
             labelName="phone"
-            labelValue="phoneNo"
+            labelValue="PhoneNo"
             inputType="tel"
             onBlur={formik.handleBlur}
             value={formik.values.phone}
@@ -150,7 +148,7 @@ const Form = () => {
 
           <InputField
             labelName="pass"
-            labelValue="password"
+            labelValue="Password"
             inputType="password"
             onBlur={formik.handleBlur}
             value={formik.values.pass}
