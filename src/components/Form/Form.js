@@ -20,7 +20,7 @@ const Form = () => {
       .matches(/^[0-9]{10}$/, "enter valid phone number")
       .required("phone number required"),
     pass: Yup.string()
-      .min(3, "password must be atleast 15 character long ")
+      .min(6, "password must be atleast 6 character long ")
       .required("Password  required"),
     confirmPass: Yup.string()
       .oneOf([Yup.ref("pass"), null], "Passwords must match")

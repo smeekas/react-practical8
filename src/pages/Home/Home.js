@@ -7,7 +7,8 @@ const Home = (props) => {
   let userData = useSelector((state) => state);
   const history = useHistory();
   const dispatch = useDispatch();
-
+  document.title="Home"
+  
   const logoutHandler = () => {
     dispatch({ type: userActionTypes.REMOVE_USER_DATA });
 

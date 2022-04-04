@@ -3,6 +3,7 @@ import girl from "../../static/girl.png";
 import React from "react";
 import Form from "../../components/Form/Form";
 const SignUp = () => {
+  document.title="signup"
   return (
     <div className={styles.signup}>
      
