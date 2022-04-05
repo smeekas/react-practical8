@@ -5,45 +5,39 @@ import { userActionTypes } from "../../actionTypes/userActionTypes";
 import { useState, useRef } from "react";
 import { useFormik } from "formik";
 import React from "react";
-import * as Yup from "yup";
-import InputField from "../../components/Inputfield/InputField";
+
+import FormValidationSchema from "./FormValidationSchema";
+import InputField from "../InputField/InputField";
 import { useHistory } from "react-router-dom";
+import { motion } from "framer-motion";
 import { addData } from "../../services/localStorage";
 const Form = () => {
   const histroy = useHistory();
   const inputFileRef = useRef();
   const dispatch = useDispatch();
+
   const [photo, setPhoto] = useState(null);
-  const validationSchema = Yup.object().shape({
-    name: Yup.string().required("Name required"),
-    email: Yup.string().email().required("Email required"),
-    phone: Yup.string()
-      .matches(/^[0-9]{10}$/, "Enter valid phone number")
-      .required("Phone number required"),
-    pass: Yup.string()
-      .matches(
-        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{6,10}$/,
-        "Upper Lower and number "
-      )
-      .required("Password  required"),
-    confirmPass: Yup.string()
-      .oneOf([Yup.ref("pass"), null], "Passwords must match")
-      .required("Confirm password required"),
-    photo: Yup.mixed()
-      .required("Image required")
-      .test("fileSize", "Image size must be < 2 MB", (value) => {
-        return value && value.size <= 2000000;
-      }),
-  });
   const initialValues = {
-    name: "abc ",
-    email: "abc@abc.com",
-    phone: "1234567890",
-    pass: "Smeet123",
-    confirmPass: "Smeet123",
+    name: "",
+    email: "",
+    phone: "",
+    pass: "",
+    confirmPass: "",
     photo: "",
   };
-  const onSubmit = async (values) => {
+  const onSubmit = (values) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(inputFileRef.current.files[0]);
+    reader.onloadend = () => {
+      addData({
+        name: values.name,
+        email: values.email,
+        phone: values.phone,
+        password: values.pass,
+        photo: reader.result,
+        auth: true,
+      });
+    };
     dispatch({
       type: userActionTypes.ADD_USER_DATA,
       userData: {
@@ -55,27 +49,20 @@ const Form = () => {
         auth: true,
       },
     });
-    addData({
-      name: values.name,
-      email: values.email,
-      phone: values.phone,
-      password: values.pass,
-      photo: URL.createObjectURL(inputFileRef.current.files[0]),
-      auth: true,
-    });
+
     histroy.replace("home");
   };
 
   const formik = useFormik({
     initialValues,
     onSubmit,
-    validationSchema: validationSchema,
+    validationSchema: FormValidationSchema,
   });
-
+  const { touched, errors, values, handleBlur, handleChange } = formik;
   const fileInputHandler = (event) => {
     if (event.target.files[0]) {
       setPhoto(URL.createObjectURL(event.target.files[0]));
-      formik.setTouched({ ...formik.touched, photo: true });
+      formik.setTouched({ ...touched, photo: true });
       formik.setFieldValue("photo", event.target.files[0]);
     }
   };
@@ -90,31 +77,37 @@ const Form = () => {
         <section className={styles.filePicker}>
           <div className={styles.filePhoto}>
             <input
-              // className={styles.fileInput}
               ref={inputFileRef}
               style={{ display: "none" }}
               type="file"
               name="photo"
               accept=".jpg, .png"
               onChange={fileInputHandler}
-              onBlur={formik.handleBlur}
+              onBlur={handleBlur}
             />
             <Button
               type="button"
               className={styles.fileButton}
               onClick={() => inputFileRef.current.click()}
-              onBlur={formik.handleBlur}
+              onBlur={handleBlur}
             >
-              Photo +
+              Add profile Picture
             </Button>
             {photo ? (
-              <img className={styles.photo} src={photo} alt="pic" />
+              <motion.img
+                initial={{ y: -100 }}
+                animate={{ y: 0 }}
+                transition={{ duration: 0.2, type: "spring", stiffness: 100 }}
+                className={styles.photo}
+                src={photo}
+                alt="pic"
+              />
             ) : (
               <div className={styles.photoReplacement}></div>
             )}
           </div>
-          {formik.errors.photo && formik.touched.photo && (
-            <p className={styles.fileError}>{formik.errors.photo}</p>
+          {errors.photo && touched.photo && (
+            <p className={styles.fileError}>{errors.photo}</p>
           )}
         </section>
         <section>
@@ -122,12 +115,12 @@ const Form = () => {
             labelName="name"
             labelValue="Name"
             inputType="text"
-            onBlur={formik.handleBlur}
-            onChange={formik.handleChange}
-            value={formik.values.name}
+            onBlur={handleBlur}
+            onChange={handleChange}
+            value={values.name}
             error={{
-              show: formik.errors.name && formik.touched.name,
-              message: formik.errors.name,
+              show: errors.name && touched.name,
+              message: errors.name,
             }}
           />
 
@@ -135,12 +128,12 @@ const Form = () => {
             labelName="email"
             labelValue="Email"
             inputType="email"
-            onBlur={formik.handleBlur}
-            value={formik.values.email}
-            onChange={formik.handleChange}
+            onBlur={handleBlur}
+            value={values.email}
+            onChange={handleChange}
             error={{
-              show: formik.errors.email && formik.touched.email,
-              message: formik.errors.email,
+              show: errors.email && touched.email,
+              message: errors.email,
             }}
           />
 
@@ -148,12 +141,12 @@ const Form = () => {
             labelName="phone"
             labelValue="PhoneNo"
             inputType="tel"
-            onBlur={formik.handleBlur}
-            value={formik.values.phone}
-            onChange={formik.handleChange}
+            onBlur={handleBlur}
+            value={values.phone}
+            onChange={handleChange}
             error={{
-              show: formik.errors.phone && formik.touched.phone,
-              message: formik.errors.phone,
+              show: errors.phone && touched.phone,
+              message: errors.phone,
             }}
           />
 
@@ -161,12 +154,12 @@ const Form = () => {
             labelName="pass"
             labelValue="Password"
             inputType="password"
-            onBlur={formik.handleBlur}
-            value={formik.values.pass}
-            onChange={formik.handleChange}
+            onBlur={handleBlur}
+            value={values.pass}
+            onChange={handleChange}
             error={{
-              show: formik.errors.pass && formik.touched.pass,
-              message: formik.errors.pass,
+              show: errors.pass && touched.pass,
+              message: errors.pass,
             }}
           />
 
@@ -174,12 +167,12 @@ const Form = () => {
             labelName="confirmPass"
             labelValue="Confirm Passoword"
             inputType="password"
-            onBlur={formik.handleBlur}
-            value={formik.values.confirmPass}
-            onChange={formik.handleChange}
+            onBlur={handleBlur}
+            value={values.confirmPass}
+            onChange={handleChange}
             error={{
-              show: formik.errors.confirmPass && formik.touched.confirmPass,
-              message: formik.errors.confirmPass,
+              show: errors.confirmPass && touched.confirmPass,
+              message: errors.confirmPass,
             }}
           />
         </section>

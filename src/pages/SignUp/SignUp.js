@@ -1,9 +1,9 @@
 import styles from "./SignUp.module.css";
-import girl from "../../static/girl.png";
+import girl from "../../assets/girl.png";
 import React from "react";
 import Form from "../../components/Form/Form";
 const SignUp = () => {
-  document.title="signup"
+  document.title="SignUp"
   return (
     <div className={styles.signup}>
      

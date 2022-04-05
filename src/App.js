@@ -29,12 +29,15 @@ function App() {
       <Route exact path="/">
         <Redirect to="/signup" />
       </Route>
-      <Route path="/signup">
+      {/* <Route path="/signup">
         <SignUp />
-      </Route>
-      {/* <Route path="*">
-        <p>error</p>
       </Route> */}
+      <ProtectedRoute
+        component={SignUp}
+        auth={!auth}
+        path="/signup"
+        redirect="/home"
+      />
       <ProtectedRoute
         component={Home}
         auth={auth}
