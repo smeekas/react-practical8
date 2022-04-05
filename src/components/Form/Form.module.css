@@ -107,11 +107,25 @@ form {
   width: 5rem;
   height: 5rem;
 }
+
+@media screen and (max-width: 1139px) {
+  .password {
+    padding-bottom: 2.5rem !important;
+  }
+}
+@media screen and (max-width: 860px) {
+  .password {
+    padding-bottom: 1.5rem;
+  }
+  .password p {
+    bottom: 20% !important;
+  }
+}
 @media screen and (max-width: 566px) {
   .password {
-    padding-bottom: 2.5rem !important; 
+    padding-bottom: 2.5rem !important;
   }
-  .password  p{
-    bottom: 5%;
+  .password p {
+    bottom: 5% !important;
   }
 }
