@@ -1,6 +1,7 @@
 # react-practical-8
 
 ## user management app 
+ used formik for forms and yup for validation and used react-router for routing purpose.
  ## 1 hosted on render: https://ramen.onrender.com  </br>
 ## Getting Started
 
