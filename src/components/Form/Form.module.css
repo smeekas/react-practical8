@@ -109,7 +109,7 @@ form {
 }
 @media screen and (max-width: 566px) {
   .password {
-    padding-bottom: 2.1rem;
+    padding-bottom: 2.5rem !important; 
   }
   .password  p{
     bottom: 5%;
