@@ -154,6 +154,7 @@ const Form = () => {
             labelName="pass"
             labelValue="Password"
             inputType="password"
+            className={styles.password}
             onBlur={handleBlur}
             value={values.pass}
             onChange={handleChange}

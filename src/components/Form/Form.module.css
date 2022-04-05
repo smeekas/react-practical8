@@ -8,12 +8,12 @@ form {
   align-items: center;
   flex-direction: column;
   position: relative;
-  padding-bottom:1rem ;
+  padding-bottom: 1rem;
 }
-
 .error {
   padding: 0 0.5rem;
 }
+
 .photoError {
   width: 100%;
   display: flex;
@@ -106,4 +106,12 @@ form {
 .photo {
   width: 5rem;
   height: 5rem;
+}
+@media screen and (max-width: 566px) {
+  .password {
+    padding-bottom: 2.1rem;
+  }
+  .password  p{
+    bottom: 5%;
+  }
 }

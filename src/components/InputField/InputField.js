@@ -7,10 +7,13 @@ const InputField = ({
   onChange,
   value,
   error,
+  className,
 }) => {
   return (
     <div
-      className={`${styles["form-control"]} ${error.show ? styles.error : ""}`}
+      className={`${styles["form-control"]} ${error.show ? styles.error : ""} ${
+        className ? className : ""
+      }`}
     >
       <label htmlFor={labelName}>{labelValue}</label>
       <input
