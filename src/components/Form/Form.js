@@ -50,7 +50,7 @@ const Form = () => {
       },
     });
 
-    histroy.replace("home");
+    histroy.push("/home");
   };
 
   const formik = useFormik({

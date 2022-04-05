@@ -13,7 +13,7 @@ const Home = (props) => {
   const logoutHandler = () => {
     dispatch({ type: userActionTypes.REMOVE_USER_DATA });
       removeData();
-    history.replace("signup");
+    history.push("/signup");
   };
   return (
     <div className={styles.home}>
