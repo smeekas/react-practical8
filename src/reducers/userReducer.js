@@ -7,7 +7,7 @@ const initialUserData = {
   password: "",
   auth:false
 };
-const userReducer = (state = initialUserData, { type, userData,auth }) => {
+const userReducer = (state = initialUserData, { type, userData }) => {
   switch (type) {
     case userActionTypes.ADD_USER_DATA:
       return {
@@ -16,7 +16,7 @@ const userReducer = (state = initialUserData, { type, userData,auth }) => {
         phone: userData.phone,
         password: userData.password,
         photo:userData.photo,
-        auth:auth
+        auth:userData.auth
       };
     case userActionTypes.REMOVE_USER_DATA:
       return {

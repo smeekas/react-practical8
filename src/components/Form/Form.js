@@ -8,38 +8,42 @@ import React from "react";
 import * as Yup from "yup";
 import InputField from "../../components/Inputfield/InputField";
 import { useHistory } from "react-router-dom";
+import { addData } from "../../services/localStorage";
 const Form = () => {
   const histroy = useHistory();
   const inputFileRef = useRef();
   const dispatch = useDispatch();
   const [photo, setPhoto] = useState(null);
   const validationSchema = Yup.object().shape({
-    name: Yup.string().required("name required"),
-    email: Yup.string().email().required("email required"),
+    name: Yup.string().required("Name required"),
+    email: Yup.string().email().required("Email required"),
     phone: Yup.string()
-      .matches(/^[0-9]{10}$/, "enter valid phone number")
-      .required("phone number required"),
+      .matches(/^[0-9]{10}$/, "Enter valid phone number")
+      .required("Phone number required"),
     pass: Yup.string()
-      .min(6, "password must be atleast 6 character long ")
+      .matches(
+        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{6,10}$/,
+        "Upper Lower and number "
+      )
       .required("Password  required"),
     confirmPass: Yup.string()
       .oneOf([Yup.ref("pass"), null], "Passwords must match")
-      .required("confirm password required"),
+      .required("Confirm password required"),
     photo: Yup.mixed()
-      .required("image required")
-      .test("fileSize", "image size must be < 2 MB", (value) => {
+      .required("Image required")
+      .test("fileSize", "Image size must be < 2 MB", (value) => {
         return value && value.size <= 2000000;
       }),
   });
   const initialValues = {
-    name: "",
-    email: "",
-    phone: "",
-    pass: "",
-    confirmPass: "",
+    name: "abc ",
+    email: "abc@abc.com",
+    phone: "1234567890",
+    pass: "Smeet123",
+    confirmPass: "Smeet123",
     photo: "",
   };
-  const onSubmit = (values) => {
+  const onSubmit = async (values) => {
     dispatch({
       type: userActionTypes.ADD_USER_DATA,
       userData: {
@@ -48,10 +52,17 @@ const Form = () => {
         phone: values.phone,
         password: values.pass,
         photo: URL.createObjectURL(inputFileRef.current.files[0]),
+        auth: true,
       },
+    });
+    addData({
+      name: values.name,
+      email: values.email,
+      phone: values.phone,
+      password: values.pass,
+      photo: URL.createObjectURL(inputFileRef.current.files[0]),
       auth: true,
     });
-
     histroy.replace("home");
   };
 

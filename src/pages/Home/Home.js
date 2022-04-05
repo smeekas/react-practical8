@@ -2,6 +2,7 @@ import styles from "./Home.module.css";
 import Button from "../../components/UI/Button/Button";
 import { useDispatch, useSelector } from "react-redux";
 import { userActionTypes } from "../../actionTypes/userActionTypes";
+import {removeData}  from '../../services/localStorage'
 import { useHistory } from "react-router-dom";
 const Home = (props) => {
   let userData = useSelector((state) => state);
@@ -11,7 +12,7 @@ const Home = (props) => {
   
   const logoutHandler = () => {
     dispatch({ type: userActionTypes.REMOVE_USER_DATA });
-
+      removeData();
     history.replace("signup");
   };
   return (

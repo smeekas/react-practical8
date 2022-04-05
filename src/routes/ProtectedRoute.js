@@ -1,9 +1,12 @@
 import { Route, Redirect } from "react-router-dom";
-import { useSelector } from "react-redux";
 
-const ProtectedRoute = ({ component: Component, redirect, path, ...rest }) => {
-  const auth = useSelector((state) => state.auth);
-
+const ProtectedRoute = ({
+  component: Component,
+  auth,
+  redirect,
+  path,
+  ...rest
+}) => {
   return (
     <Route exact path={path}>
       {auth ? <Component {...rest} /> : <Redirect to={redirect} />}
