@@ -1,7 +1,7 @@
 # react-practical-8
 
 ## user management app 
- ## 1 hosted on netlify: https://semolina.netlify.app/  </br>
+ ## 1 hosted on render: https://ramen.onrender.com  </br>
 ## Getting Started
 
 1. Setup React
